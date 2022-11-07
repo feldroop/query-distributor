@@ -37,7 +37,7 @@ fn main() {
                 std::str::from_utf8(record.head()).expect("Query name surprisingly was not UTF-8");
 
             let bin_ids = search_output.read_name_to_bin_ids.get(name).expect(
-                "Query file contains a read that is not mentioned in the raptor output fiel",
+                "Query file contains a read that is not mentioned in the raptor output file",
             );
 
             for bin_id in bin_ids {

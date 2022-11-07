@@ -78,6 +78,7 @@ fn full_body(input: &str) -> IResult<&str, HashMap<String, Vec<usize>>> {
     })(input)
 }
 
+// helper functions
 fn parse_usize(data: &str) -> usize {
     data.parse()
         .expect("Failed to parse a number where one should be")
