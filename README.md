@@ -1,6 +1,6 @@
 # query-distributor
 
-This is a command line program that reads the output of the [raptor](https://github.com/seqan/raptor) search command and a .fastq query file. It then creates a .fastq file for every genome bin of the raptor output. That file will contain the reads from the .fastq query file that were classified (according to the raptor output) its respective bin.
+This is a command line program that reads the output of the [raptor](https://github.com/seqan/raptor) search command and a .fastq query file. It then creates a .fastq file for every genome bin of the raptor output. That file will contain the reads from the .fastq query file that were classified (according to the raptor output) to its respective bin.
 
 ## Usage
 
