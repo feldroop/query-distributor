@@ -6,7 +6,7 @@ use nom::{
     bytes::complete::{tag, take_while1},
     character::complete::{char, digit1, newline, not_line_ending, tab},
     multi::{fold_many0, many_till, separated_list0},
-    sequence::{preceded, separated_pair, terminated},
+    sequence::{delimited, separated_pair, terminated},
     IResult, Parser,
 };
 
@@ -47,9 +47,10 @@ impl RaptorSearchOutput {
 
 // subparser functions
 fn bin_header_line(input: &str) -> IResult<&str, (usize, String)> {
-    let id = preceded(char('#'), digit1);
-    let name = terminated(not_line_ending, newline);
-    let line = separated_pair(id, tab, name);
+    let id = digit1;
+    let name = not_line_ending;
+    let mapping = separated_pair(id, tab, name);
+    let line = delimited(char('#'), mapping, newline);
 
     line.map(|(id, name)| (parse_usize(id), name.to_owned()))
         .parse(input)
@@ -63,11 +64,11 @@ fn full_header(input: &str) -> IResult<&str, HashMap<usize, String>> {
 
 fn body_line(input: &str) -> IResult<&str, (String, Vec<usize>)> {
     let read_name = take_while1(|c| c != '\t');
-    let possible_bins = separated_list0(tag(","), digit1::<&str, _>);
-    let terminated_possible_bins = terminated(possible_bins, newline);
-    let line = separated_pair(read_name, tab, terminated_possible_bins);
+    let bin_ids = separated_list0(tag(","), digit1);
+    let mapping = separated_pair(read_name, tab, bin_ids);
+    let line = terminated(mapping, newline);
 
-    line.map(|(read_name, possible_bins)| (read_name.to_owned(), parse_bin_ids(possible_bins)))
+    line.map(|(read_name, possible_bins)| (str::to_owned(read_name), parse_bin_ids(possible_bins)))
         .parse(input)
 }
 

@@ -2,7 +2,7 @@
 name = "query-distributor"
 version = "0.1.0"
 edition = "2021"
-author = "Felix Droop"
+authors = ["Felix Droop"]
 
 [dependencies]
 clap = { version = "4", features = ["derive"] }
