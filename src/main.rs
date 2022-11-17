@@ -65,12 +65,14 @@ fn setup_output_folder_and_files(
     for (bin_id, bin_name) in &search_output.bin_id_to_name {
         // I assume the bin name is a file path. I want to name the output
         // as the filename + .fastq (including any previous extension of the filename)
-        let file_path = PathBuf::from(bin_name);
-        let mut filename_string = file_path.file_name().unwrap().to_str().unwrap().to_owned();
-        filename_string += ".fastq";
+        let bin_path = PathBuf::from(bin_name);
+        let bin_file_stem = bin_path
+            .file_stem()
+            .expect("input bin names are not filenames");
 
         let mut output_path = output_folder.to_owned();
-        output_path.push(filename_string);
+        output_path.push(bin_file_stem);
+        output_path.set_extension("fastq");
 
         let f = File::create(output_path).expect("Could not create the output file for a bin");
         let writer = BufWriter::new(f);
