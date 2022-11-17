@@ -63,8 +63,6 @@ fn setup_output_folder_and_files(
     }
 
     for (bin_id, bin_name) in &search_output.bin_id_to_name {
-        // I assume the bin name is a file path. I want to name the output
-        // as the filename + .fastq (including any previous extension of the filename)
         let bin_path = PathBuf::from(bin_name);
         let bin_file_stem = bin_path
             .file_stem()
